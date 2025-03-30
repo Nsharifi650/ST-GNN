@@ -1,5 +1,6 @@
 import os
 
+import random
 import pandas as pd
 import numpy as np
 import torch
@@ -110,7 +111,10 @@ class StockDataset:
         total = len(sequences)
         split_train = self.config.training.training_percent
         split_val = self.config.training.validation_percent
-        split_test = self.config.training.test_percent
+        # split_test = self.config.training.test_percent
+
+        if self.config.training.shuffle_data:
+            random.shuffle(sequences)
 
         # Calculate split indices
         idx_train = int(total * split_train)

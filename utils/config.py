@@ -23,18 +23,20 @@ class training_hyperparameters(BaseModel):
     training_percent: float
     validation_percent: float
     test_percent: float
+    shuffle_data: bool
 
 
 class Model_Parameters(BaseModel):
-    in_channels: int
-    out_channels: int
     attention_heads: int
     gru_l1_hidden_size: int
     gru_l1_layers: int
     gru_l2_hidden_size: int
     gru_l2_layers: int
+    gru_decoder_hidden_size: int
+    gru_decoder_layers: int
 
 
 class configuration(BaseModel):
     stock_config: finance_config
     training: training_hyperparameters
+    model: Model_Parameters

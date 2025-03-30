@@ -12,11 +12,10 @@ class finance_config(BaseModel):
 
 
 class training_hyperparameters(BaseModel):
-    BATCH_SIZE = int
-    EPOCHS = int
-    WEIGHT_DECAY = float
-    LEARNING_RATE = float
-    CHECKPOINT_DIR: str
+    BATCH_SIZE: int
+    EPOCHS: int
+    WEIGHT_DECAY: float
+    LEARNING_RATE: float
     N_PRED: int
     N_HIST: int
     DROPOUT: float
@@ -24,6 +23,8 @@ class training_hyperparameters(BaseModel):
     validation_percent: float
     test_percent: float
     shuffle_data: bool
+    checkpoint_dir: str
+    do_training: bool
 
 
 class Model_Parameters(BaseModel):
@@ -36,7 +37,14 @@ class Model_Parameters(BaseModel):
     gru_decoder_layers: int
 
 
+class Inference(BaseModel):
+    output_dir: str
+    node: str
+    step: int
+
+
 class configuration(BaseModel):
     stock_config: finance_config
     training: training_hyperparameters
     model: Model_Parameters
+    inference: Inference

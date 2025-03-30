@@ -5,12 +5,13 @@ from torch_geometric.nn import GATConv
 from utils.config import configuration
 
 
-class ST_GAT(torch.nn.Module):
+class Spatio_Temporal_GAT(torch.nn.Module):
     def __init__(self, config: configuration):
-        super(ST_GAT, self).__init__()
+        super(Spatio_Temporal_GAT, self).__init__()
 
         self.n_pred = config.training.N_PRED
         self.n_nodes = len(config.stock_config.company_list)
+        self.dropout = config.training.DROPOUT
 
         # Graph Attention step
         self.gat = GATConv(

@@ -1,1 +1,36 @@
-# 
+stock_config:
+  start_date: "2015-01-01"
+  end_date: "2025-01-01"
+  company_list:
+    - "GOOGL"
+    - "AAPL"
+    - "MSFT"
+    - "AMZN"
+    - "META"
+    - "NVDA"
+  dataset_path: "data/dataset"
+  scaled_data_file_name: "scaled_data.csv"
+
+training:
+  BATCH_SIZE: 32
+  EPOCHS: 200
+  WEIGHT_DECAY: 1e-8
+  LEARNING_RATE: 1e-5
+  CHECKPOINT_DIR: "runs"
+  N_PRED: 10
+  N_HIST: 50
+  DROPOUT: 0.01
+  training_percent: 0.9
+  validation_percent: 0.05
+  test_percent: 0.05
+  shuffle_data: true
+  checkpoint_dir: "runs"
+
+model:
+  attention_heads: 1
+  gru_l1_hidden_size: 64
+  gru_l1_layers: 1
+  gru_l2_hidden_size: 64
+  gru_l2_layers: 1
+  gru_decoder_hidden_size: 64
+  gru_decoder_layers: 1

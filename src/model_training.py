@@ -10,8 +10,12 @@ from utils.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-def save_checkpoint(state: dict, filename: str = "checkpoint.pth") -> None:
-    torch.save(state, filename)
+def save_checkpoint(
+    state: dict, config: configuration, file_dir: str = "checkpoint.pth"
+) -> None:
+    os.makedirs(config.training.checkpoint_dir, exist_ok=True)
+    checkpoint_dir = os.path.join(config.training.checkpoint_dir, file_dir)
+    torch.save(state, checkpoint_dir)
 
 
 def load_checkpoint(
@@ -76,8 +80,8 @@ def train_model(
         state = {
             "model_state_dict": model.state_dict(),
             "optimiser_state_dict": optimiser.state_dict(),
-            "loss": Training_loss,
+            "loss": Training_loss / len(train_dataloader),
             "epoch": epoch,
         }
 
-        save_checkpoint(state)
+        save_checkpoint(state, config)

@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import torch
 from torch_geometric.data import Data
-from torch_geometric.data import DataLoader
+from torch_geometric.loader import DataLoader
 
 from utils.config import configuration
 from utils.logging_config import get_logger
@@ -30,12 +30,12 @@ class StockDataset:
         self.n_node = len(config.stock_config.company_list)
         self.W = AdjacencyMatrix(self.n_node)
 
-    def process(self):
+    def process(self) -> tuple[DataLoader, DataLoader, DataLoader]:
         data_dir = os.path.join(
             self.config.stock_config.dataset_path,
             self.config.stock_config.scaled_data_file_name,
         )
-        data = pd.read_csv(data_dir).values
+        data = pd.read_csv(data_dir, index_col=0).values
 
         sequences = self.generate_graphs(data)
 
@@ -46,13 +46,22 @@ class StockDataset:
         )
 
         train_dataloader = DataLoader(
-            train, batch_size=self.config.training.BATCH_SIZE, shuffle=True
+            train,
+            batch_size=self.config.training.BATCH_SIZE,
+            shuffle=True,
+            drop_last=True,
         )
         val_dataloader = DataLoader(
-            val, batch_size=self.config.training.BATCH_SIZE, shuffle=True
+            val,
+            batch_size=self.config.training.BATCH_SIZE,
+            shuffle=True,
+            drop_last=True,
         )
         test_dataloader = DataLoader(
-            test, batch_size=self.config.training.BATCH_SIZE, shuffle=True
+            test,
+            batch_size=self.config.training.BATCH_SIZE,
+            shuffle=True,
+            drop_last=True,
         )
 
         return train_dataloader, val_dataloader, test_dataloader
@@ -90,7 +99,7 @@ class StockDataset:
         sequences = []
         num_days, _ = data.shape
 
-        for i in range(num_days):
+        for i in range(num_days - n_window + 1):
             sta = i
             end = i + n_window
             full_window = np.swapaxes(data[sta:end, :], 0, 1)

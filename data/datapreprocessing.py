@@ -21,16 +21,19 @@ def download_stock_data(config: configuration) -> pd.DataFrame:
     end_date = dt.datetime.strptime(config.stock_config.end_date, "%Y-%m-%d")
     companies_list = config.stock_config.company_list
 
-    open_prices = {}
+    print(companies_list)
+
+    data_set = pd.DataFrame()
     try:
         for company in companies_list:
             logger.info(f"Downloading stocks for company: {company}")
             company_stock = yf.download(company, start_date, end_date)
-            open_prices[company] = company_stock["Open"]
+            data_set[company] = company_stock["Open"]
+            # print(company_stock["Open"])
     except Exception as e:
         raise StockDataException(f"Error Downloading company stocks: {e}")
 
-    return pd.DataFrame(open_prices)
+    return data_set
 
 
 def scale_data(data: pd.DataFrame) -> tuple[pd.DataFrame, StandardScaler]:

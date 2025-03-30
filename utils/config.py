@@ -1,11 +1,10 @@
 # Configuration
-from datetime import date
 from pydantic import BaseModel
 
 
 class finance_config(BaseModel):
-    start_data: date
-    end_date: date
+    start_date: str
+    end_date: str
     company_list: list[str]
     dataset_path: str
     scaled_data_file_name: str

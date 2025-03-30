@@ -1,6 +1,7 @@
 import logging
 
-def get_logger(name = __name__, log_file = "Logs.log"):
+
+def get_logger(name=__name__, log_file="Logs.log"):
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
     file_handler = logging.FileHandler(log_file)
